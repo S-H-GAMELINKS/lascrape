@@ -1906,22 +1906,33 @@ __webpack_require__.r(__webpack_exports__);
 //
 //
 //
+//
+//
+//
+//
 
 
 /* harmony default export */ __webpack_exports__["default"] = ({
   data: function data() {
     return {
-      url: ""
+      url: "",
+      html: []
     };
   },
   methods: {
     getScrape: function getScrape() {
+      var _this = this;
+
       axios__WEBPACK_IMPORTED_MODULE_0___default.a.defaults.headers['X-CSRF-TOKEN'] = jquery__WEBPACK_IMPORTED_MODULE_1___default()('meta[name=csrf-token]').attr('content');
       axios__WEBPACK_IMPORTED_MODULE_0___default.a.defaults.headers['content-type'] = 'application/json';
       axios__WEBPACK_IMPORTED_MODULE_0___default.a.post("/scrape", {
         url: this.url
       }).then(function (response) {
+        _this.html.push(response.data);
+
         console.log(response);
+
+        _this.$forceUpdate();
       }, function (error) {
         console.log(error);
       });
@@ -37251,39 +37262,56 @@ var render = function() {
   var _h = _vm.$createElement
   var _c = _vm._self._c || _h
   return _c("div", { staticClass: "container" }, [
-    _c("div", { staticClass: "form-group" }, [
-      _c("input", {
-        directives: [
-          {
-            name: "model",
-            rawName: "v-model",
-            value: _vm.url,
-            expression: "url"
-          }
-        ],
-        domProps: { value: _vm.url },
-        on: {
-          input: function($event) {
-            if ($event.target.composing) {
-              return
+    _c(
+      "div",
+      { staticClass: "form-group" },
+      [
+        _c("input", {
+          directives: [
+            {
+              name: "model",
+              rawName: "v-model",
+              value: _vm.url,
+              expression: "url"
             }
-            _vm.url = $event.target.value
-          }
-        }
-      }),
-      _vm._v(" "),
-      _c(
-        "button",
-        {
+          ],
+          domProps: { value: _vm.url },
           on: {
-            click: function($event) {
-              return _vm.getScrape()
+            input: function($event) {
+              if ($event.target.composing) {
+                return
+              }
+              _vm.url = $event.target.value
             }
           }
-        },
-        [_vm._v("Get")]
-      )
-    ])
+        }),
+        _vm._v(" "),
+        _c(
+          "button",
+          {
+            on: {
+              click: function($event) {
+                return _vm.getScrape()
+              }
+            }
+          },
+          [_vm._v("Get")]
+        ),
+        _vm._v(" "),
+        _vm._l(_vm.html, function(key, index) {
+          return _c("div", { key: index }, [
+            _vm._v(
+              "\n            " +
+                _vm._s(Object.keys(key)[0]) +
+                ":" +
+                _vm._s(Object.values(key)[0]) +
+                "\n        "
+            )
+          ])
+        })
+      ],
+      2
+    )
   ])
 }
 var staticRenderFns = []
